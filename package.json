@@ -4,7 +4,7 @@
   "description": "node js and selenium automation test",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "mocha tests/**/*.test.js"
   },
   "author": "mhdjanuar",
   "license": "ISC",
