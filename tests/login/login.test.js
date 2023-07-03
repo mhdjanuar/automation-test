@@ -1,26 +1,15 @@
-const {By, Builder, Key, until, Browser} = require("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome");
+const {By, until} = require("selenium-webdriver");
 const config = require("../../config")
 const assert = require("assert");
 
-require('chromedriver');
-
 const { url, username, password } = config;
-
-const chromeOptions = new chrome.Options().headless();
 
 describe('Test Case Login - Timesheet Digiform', function () {
   this.timeout(30000)
 
-  let driver;
-
-  before(async function () {
-    driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
-
+  it('Go to website', async () => {
     await driver.get(url);
-  });
-
-  after(async () => await driver.quit());
+  })
 
   it('Test Negative Case - Login Validation Empty Input', async () => {
     let submitButton = await driver.findElement(By.className('ant-btn ant-btn-primary login-form-button'));
