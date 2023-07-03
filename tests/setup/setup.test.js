@@ -2,6 +2,8 @@ const { Builder } = require('selenium-webdriver');
 const chrome = require("selenium-webdriver/chrome");
 const chromeOptions = new chrome.Options().headless();
 
+require('chromedriver');
+
 let driver;
 
 before(async function () {
