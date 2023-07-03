@@ -1,48 +1,45 @@
-const {By, Builder, Key, until, Browser} = require('selenium-webdriver');
-const {suite} = require('selenium-webdriver/testing');
+const {By, Builder, Key, until, Browser} = require("selenium-webdriver");
+const chrome = require("selenium-webdriver/chrome");
+const config = require("../../config")
 const assert = require("assert");
-require("chromedriver")
 
-suite(function (env) {
-  describe('First script', function () {
-    this.timeout(10000);
+require('chromedriver');
 
-    let driver;
+const { url, username, password } = config;
 
-    before(async function () {
-      driver = await new Builder().forBrowser('chrome').build();
-    });
+const chromeOptions = new chrome.Options().headless();
 
-    after(async () => await driver.quit());
+describe('Test Case - Timesheet Digiform', function () {
+  this.timeout(30000)
 
-    it('First Selenium script', async function () {
-      await driver.get('https://www.selenium.dev/selenium/web/web-form.html');
+  let driver;
 
-      let title = await driver.getTitle();
-      assert.equal("Web form", title);
-
-      await driver.manage().setTimeouts({implicit: 500});
-
-      let textBox = await driver.findElement(By.name('my-text'));
-      let submitButton = await driver.findElement(By.css('button'));
-
-      await textBox.sendKeys('Selenium');
-      await submitButton.click();
-
-      let message = await driver.findElement(By.id('message'));
-      let value = await message.getText();
-      assert.equal("Received!", value);
-    });
-
-    it('Google search testing', async () => {
-        //open the website
-        await driver.get('http://www.google.com/');
-
-        //find the search box and enter webdriver as the search term
-        await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
-
-        //wait for the page to load
-        await driver.wait(until.titleIs('webdriver - Penelusuran Google'), 1000);
-    })
+  before(async function () {
+    driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
   });
-}, { browsers: [Browser.CHROME]});
+
+  after(async () => await driver.quit());
+
+  it('Test Positive Case - Login Success', async () => {
+    await driver.get(url);
+
+    let title = await driver.getTitle();
+    assert.equal("GUDANG SOLUSI GROUP", title);
+
+    await driver.manage().setTimeouts({implicit: 500});
+
+    let inputEmail = await driver.findElement(By.id('login_email'));
+    let inputPassword = await driver.findElement(By.id('login_password'));
+    let submitButton = await driver.findElement(By.className('ant-btn ant-btn-primary login-form-button'));
+
+    await inputEmail.sendKeys(username);
+    await inputPassword.sendKeys(password);
+
+    await submitButton.click();
+
+    let logo = await driver.wait(until.elementLocated(By.className('logo')),10000);
+
+    const succsesValue = await logo.getText();
+    assert.equal("GSG", succsesValue);
+  })
+});
