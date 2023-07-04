@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/**/*.test.js",
-    "test-suite": "npx mocha tests/testRunner.js"
+    "test-suite": "npx mocha tests/setup/setup.test.js tests/testSuites/*.test.js",
+    "test-scenario": "npx mocha tests/setup/setup.test.js tests/testRunner.js"
   },
   "author": "mhdjanuar",
   "license": "ISC",
