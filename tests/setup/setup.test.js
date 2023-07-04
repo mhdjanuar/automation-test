@@ -6,7 +6,7 @@ const config = require('../../config')
 require('chromedriver');
 require('geckodriver')
 
-const chromeOptions = new chrome.Options().headless();
+const chromeOptions = new chrome.Options().headless().windowSize({width: 1920, height: 1080});
 const firefoxOptions = new firefox.Options().headless();
 
 const { browser } = config;

@@ -29,6 +29,6 @@ describe('Test Case Login Positive - Timesheet Digiform', function () {
     let logo = await driver.wait(until.elementLocated(By.className('logo')),10000);
 
     const succsesValue = await logo.getText();
-    assert.equal("GSG", succsesValue);
+    assert.equal("GUDANG SOLUSI GROUP", succsesValue);
   })
 });
