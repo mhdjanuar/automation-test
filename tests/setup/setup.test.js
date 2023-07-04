@@ -1,14 +1,33 @@
 const { Builder } = require('selenium-webdriver');
 const chrome = require("selenium-webdriver/chrome");
-const chromeOptions = new chrome.Options().headless();
+const firefox = require("selenium-webdriver/firefox");
+const config = require('../../config')
 
 require('chromedriver');
+require('geckodriver')
+
+const chromeOptions = new chrome.Options().headless();
+const firefoxOptions = new firefox.Options().headless();
+
+const { browser } = config;
 
 let driver;
 
 before(async function () {
+  this.timeout(50000)
+
   // Setup actions before test cases
-  driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
+  switch(browser) {
+    case 'chrome':
+       driver = await new Builder().forBrowser(browser).setChromeOptions(chromeOptions).build();
+       break;
+    case 'firefox':
+       driver = await new Builder().forBrowser(browser).setFirefoxOptions(firefoxOptions).build();
+       break;
+    default:
+      driver = null;
+  }
+  
   global.driver = driver; // Store the driver in global scope
 });
 
